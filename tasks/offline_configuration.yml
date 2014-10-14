@@ -3,6 +3,9 @@
 - name: ensure nova.conf is properly configured
   ini_file:
     dest: /etc/nova/nova.conf
+    owner: nova
+    group: nova
+    mode: 0600
     section: "{{ item.section }}"
     option: "{{ item.option }}"
     value: "{{ item.value }}"
@@ -25,6 +28,9 @@
         value: "0.0.0.0" }
     - { section: DEFAULT, option: vncserver_proxyclient_address, 
         value: "127.0.0.1" }
+    - { section: DEFAULT, option: service_neutron_metadata_proxy, value: true }
+    - { section: DEFAULT, option: neutron_metadata_proxy_shared_secret, 
+        value: "{{ nova_compute_metadata_secret }}" }
     - { section: DEFAULT, option: auth_strategy, value: keystone }
     - { section: database, option: connection,
         value: "mysql://nova:{{ nova_mysql_nova_password }}@{{ 
@@ -53,11 +59,6 @@
   when: nova_controller_dockerize_context is defined or
         create_nova_db|changed
   failed_when: false
-
-- name: remove old log files
-  shell: rm /var/log/nova/*
-  when: nova_controller_dockerize_context is defined or
-        modify_nova_ini|changed
 
 - name: restart nova controller if necessary
   service:
