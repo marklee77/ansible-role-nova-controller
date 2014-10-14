@@ -26,15 +26,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "prep.yml"
     ansible.extra_vars = {
+      nova_controller_dockerized_deployment: true,
       mariadb_bind_address: "0.0.0.0",
-      nova_controller_dockerized_deployment: true
+      keystone_identity_host: "{{ ansible_docker0['ipv4']['address'] }}"
     }
   end
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "deploy.yml"
     ansible.extra_vars = {
-      nova_controller_dockerized_deployment: true
+      nova_controller_dockerized_deployment: true,
+      nova_mysql_host: "{{ ansible_docker0['ipv4']['address'] }}",
+      nova_rabbitmq_host: "{{ ansible_docker0['ipv4']['address'] }}",
+      nova_identity_host: "{{ ansible_docker0['ipv4']['address'] }}",
+      nova_compute_host: "{{ ansible_docker0['ipv4']['address'] }}"
     }
   end
 

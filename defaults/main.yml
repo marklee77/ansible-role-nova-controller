@@ -47,6 +47,8 @@ nova_identity_admin_url: http://{{ nova_identity_host }}:35357/v2.0
 nova_identity_internal_url: http://{{ nova_identity_host }}:5000/v2.0
 nova_identity_public_url: http://{{ nova_identity_host }}:5000/v2.0
 
+nova_vncserver_bind_address: "{{ nova_identity_host }}"
+
 nova_compute_host: 127.0.0.1
 nova_compute_admin_url: http://{{ nova_compute_host }}:8774/v2/%(tenant_id)s
 nova_compute_internal_url: http://{{ nova_compute_host }}:8774/v2/%(tenant_id)s

@@ -1,5 +1,6 @@
 ---
-# FIXME: my_ip and vncserver settings will require tinkering...
+# FIXME: my_ip should always be an ip address
+# what are my_ip and vcc_proxyclient_address used for?
 - name: ensure nova.conf is properly configured
   ini_file:
     dest: /etc/nova/nova.conf
@@ -22,12 +23,11 @@
     - { section: DEFAULT, option: rabbit_password, 
         value: "{{ nova_rabbitmq_nova_password }}" }
     - { section: DEFAULT, option: rabbit_virtual_host, value: /nova }
-    - { section: DEFAULT, option: my_ip, 
-        value: "127.0.0.1" }
-    - { section: DEFAULT, option: vncserver_listen, 
-        value: "0.0.0.0" }
+    - { section: DEFAULT, option: my_ip, value: "{{ nova_compute_host }}" }
+    - { section: DEFAULT, 
+        option: vncserver_listen, value: "{{ nova_vncserver_bind_address }}" }
     - { section: DEFAULT, option: vncserver_proxyclient_address, 
-        value: "127.0.0.1" }
+        value: "{{ nova_compute_host }}" }
     - { section: DEFAULT, option: service_neutron_metadata_proxy, value: true }
     - { section: DEFAULT, option: neutron_metadata_proxy_shared_secret, 
         value: "{{ nova_compute_metadata_secret }}" }

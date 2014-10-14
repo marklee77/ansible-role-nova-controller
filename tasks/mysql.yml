@@ -1,7 +1,10 @@
 ---
+# FIXME: for security we assume root login requires direct login access to mysql
+# node, needs delegate_to for non-centralized deployments.
+
 - name: ensure nova database is present
   mysql_db:
-    login_host: "{{ nova_mysql_host }}"
+    login_host: 127.0.0.1
     login_port: "{{ nova_mysql_port }}"
     login_user: root
     login_password: "{{ nova_mysql_root_password }}"
@@ -10,7 +13,7 @@
 
 - name: ensure nova database user is present
   mysql_user:
-    login_host: "{{ nova_mysql_host }}"
+    login_host: 127.0.0.1
     login_port: "{{ nova_mysql_port }}"
     login_user: root
     login_password: "{{ nova_mysql_root_password }}"
