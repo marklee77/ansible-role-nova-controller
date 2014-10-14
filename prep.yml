@@ -2,11 +2,8 @@
 - hosts: all
   gather_facts: True
   sudo: True
-  vars:
-    mariadb_bind_address: "0.0.0.0"
-
   roles:
-    - marklee77.docker
+    - { role: marklee77.docker, when: nova_controller_dockerized_deployment }
     - marklee77.mariadb
     - marklee77.rabbitmq-server
     - marklee77.keystone

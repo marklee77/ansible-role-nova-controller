@@ -1,0 +1,16 @@
+---
+- name: ensure nova rabbitmq vhost is present
+  rabbitmq_vhost:
+    name: /nova
+    state: present
+
+- name: ensure nova rabbitmq user is present
+  rabbitmq_user:
+    user: nova
+    password: "{{ nova_rabbitmq_nova_password }}"
+    vhost: /nova
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+    force: yes

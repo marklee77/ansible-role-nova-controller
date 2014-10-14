@@ -20,11 +20,6 @@ nova_identity_admin_token: >
                         '/private/credentials/keystone-admin-token 
                          length=20 
                          chars=ascii_letters,digits') }}
-nova_identity_admin_password: >
-  {{ lookup('password', nova_run_dir + 
-                        '/private/credentials/keystone-admin-password 
-                         length=20 
-                         chars=ascii_letters,digits') }}
 nova_identity_nova_password: >
   {{ lookup('password', nova_run_dir + 
                         '/private/credentials/keystone-nova-password 
@@ -52,7 +47,6 @@ nova_compute_internal_url: http://{{ nova_compute_endpoint_host }}:8774/v2/%(ten
 nova_compute_public_url: http://{{ nova_compute_endpoint_host }}:8774/v2/%(tenant_id)s
 
 nova_identity_region: RegionOne
-nova_identity_demo_password: password
 
 # The variables below only apply to dockerized deployment
 nova_controller_dockerized_deployment: false
