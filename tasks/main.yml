@@ -17,6 +17,6 @@
 - name: wait until nova controller service is ready
   wait_for:
     delay: 10
-    host: "{{ nova_compute_host }}"
+    host: "{{ openstack_compute_endpoint_host }}"
     port: 8774
     state: started

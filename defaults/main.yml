@@ -26,7 +26,7 @@ openstack_identity_nova_password: >
                          length=20 
                          chars=ascii_letters,digits') }}
 openstack_compute_metadata_secret: >
-  {{ lookup('password', neutron_run_dir +
+  {{ lookup('password', openstack_run_dir +
                         '/private/credentials/nova-metadata-secret
                          length=20
                          chars=ascii_letters,digits') }}
