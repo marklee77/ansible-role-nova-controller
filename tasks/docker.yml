@@ -42,22 +42,25 @@
     name: "{{ nova_controller_docker_containername }}_data"
     command: >
       ansible-playbook 
-        -i inventories/local.ini playbooks/offline_configuration.yml -e '{ 
-          "nova_log_verbose" : "{{ nova_log_verbose }}",
-          "nova_log_debug" : "{{ nova_log_debug }}",
-          "nova_log_dir" : "{{ nova_log_dir }}",
-          "nova_rabbitmq_host" : "{{ nova_rabbitmq_host }}",
-          "nova_rabbitmq_port" : "{{ nova_rabbitmq_port }}",
-          "nova_rabbitmq_nova_password" :
-            "{{ nova_rabbitmq_nova_password }}",
-          "nova_mysql_host" : "{{ nova_mysql_host }}",
-          "nova_mysql_port" : "{{ nova_mysql_port }}",
-          "nova_mysql_nova_password" :
-            "{{ nova_mysql_nova_password }}",
-          "nova_compute_host" : "{{ nova_compute_host }}",
-          "nova_identity_host" : "{{ nova_identity_host }}",
-          "nova_identity_internal_url" : "{{ nova_identity_internal_url }}",
-          "nova_identity_nova_password" : "{{ nova_identity_nova_password }}" }'
+        -i inventories/local.ini playbooks/configure.yml -e '{ 
+          "openstack_log_verbose" : "{{ openstack_log_verbose }}",
+          "openstack_log_debug" : "{{ openstack_log_debug }}",
+          "openstack_rabbitmq_host" : "{{ openstack_rabbitmq_host }}",
+          "openstack_rabbitmq_port" : "{{ openstack_rabbitmq_port }}",
+          "openstack_rabbitmq_nova_password" :
+            "{{ openstack_rabbitmq_nova_password }}",
+          "openstack_mysql_host" : "{{ openstack_mysql_host }}",
+          "openstack_mysql_port" : "{{ openstack_mysql_port }}",
+          "openstack_mysql_nova_password" :
+            "{{ openstack_mysql_nova_password }}",
+          "openstack_compute_endpoint_host" : 
+            "{{ openstack_compute_endpoint_host }}",
+          "openstack_identity_endpoint_host" : 
+            "{{ openstack_identity_endpoint_host }}",
+          "openstack_identity_internal_url" : 
+            "{{ openstack_identity_internal_url }}",
+          "openstack_identity_nova_password" : 
+            "{{ openstack_identity_nova_password }}" }'
     detach: no
     state: present
 
@@ -68,12 +71,12 @@
 
 - name: collect offline configuration log
   command: docker logs "{{ nova_controller_docker_containername }}_data"
-  register: offline_configuration_log
+  register: configure_log
   changed_when: false
 
 - name: display offline configuration log
   debug:
-    msg: "{{ offline_configuration_log.stdout_lines }}"
+    msg: "{{ configure_log.stdout_lines }}"
 
 - name: fail on offline configuration failure
   assert:

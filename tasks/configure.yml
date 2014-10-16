@@ -1,6 +1,6 @@
 ---
-# FIXME: my_ip should always be an ip address
-# what are my_ip and vcc_proxyclient_address used for?
+# FIXME: my_ip should always be an ip address, so do lookup in case it's a
+# host...
 - name: ensure nova.conf is properly configured
   ini_file:
     dest: /etc/nova/nova.conf
@@ -11,41 +11,42 @@
     option: "{{ item.option }}"
     value: "{{ item.value }}"
   with_items:
-    - { section: DEFAULT, option: verbose, value: "{{ nova_log_verbose }}" }
-    - { section: DEFAULT, option: debug, value: "{{ nova_log_debug }}" }
-    - { section: DEFAULT, option: log_dir, value: "{{ nova_log_dir }}" }
+    - { section: DEFAULT, option: log_dir, value: /var/log/nova" }
+    - { section: DEFAULT, option: verbose, value: "{{ openstack_log_verbose }}" }
+    - { section: DEFAULT, option: debug, value: "{{ openstack_log_debug }}" }
     - { section: DEFAULT, option: rpc_backend, value: rabbit }
-    - { section: DEFAULT, option: rabbit_host, 
-        value: "{{ nova_rabbitmq_host }}" }
-    - { section: DEFAULT, option: rabbit_port, 
-        value: "{{ nova_rabbitmq_port }}" }
+    - { section: DEFAULT, 
+        option: rabbit_host, value: "{{ openstack_rabbitmq_host }}" }
+    - { section: DEFAULT, 
+        option: rabbit_port, value: "{{ openstack_rabbitmq_port }}" }
     - { section: DEFAULT, option: rabbit_userid, value: nova }
     - { section: DEFAULT, option: rabbit_password, 
-        value: "{{ nova_rabbitmq_nova_password }}" }
+        value: "{{ openstack_rabbitmq_nova_password }}" }
     - { section: DEFAULT, option: rabbit_virtual_host, value: /nova }
-    - { section: DEFAULT, option: my_ip, value: "{{ nova_compute_host }}" }
     - { section: DEFAULT, 
-        option: vncserver_listen, value: "{{ nova_vncserver_bind_address }}" }
+        option: my_ip, value: "{{ openstack_compute_endpoint_host }}" }
+    - { section: DEFAULT, option: vncserver_listen, 
+        value: "{{ openstack_vncserver_bind_address }}" }
     - { section: DEFAULT, option: vncserver_proxyclient_address, 
-        value: "{{ nova_compute_host }}" }
+        value: "{{ openstack_compute_endpoint_host }}" }
     - { section: DEFAULT, option: service_neutron_metadata_proxy, value: true }
     - { section: DEFAULT, option: neutron_metadata_proxy_shared_secret, 
-        value: "{{ nova_compute_metadata_secret }}" }
+        value: "{{ openstack_compute_metadata_secret }}" }
     - { section: DEFAULT, option: auth_strategy, value: keystone }
     - { section: database, option: connection,
-        value: "mysql://nova:{{ nova_mysql_nova_password }}@{{ 
-                  nova_mysql_host }}:{{ nova_mysql_port }}/nova" }
+        value: "mysql://nova:{{ openstack_mysql_nova_password }}@{{ 
+                  openstack_mysql_host }}:{{ openstack_mysql_port }}/nova" }
     - { section: keystone_authtoken, option: auth_uri, 
-        value: "{{ nova_identity_admin_url }}" }
+        value: "{{ openstack_identity_internal_url }}" }
     - { section: keystone_authtoken, option: auth_host, 
-        value: "{{ nova_identity_host }}" }
+        value: "{{ openstack_identity_endpoint_host }}" }
     - { section: keystone_authtoken, option: auth_port, value: 35357 }
     - { section: keystone_authtoken, option: auth_protocol, value: http }
     - { section: keystone_authtoken, option: admin_tenant_name, 
         value: service }
     - { section: keystone_authtoken, option: admin_user, value: nova }
     - { section: keystone_authtoken, option: admin_password, 
-        value: "{{ nova_identity_nova_password }}" }
+        value: "{{ openstack_identity_nova_password }}" }
   register: modify_nova_ini
 
 - name: ensure nova sqlite is deleted
@@ -57,7 +58,8 @@
   sudo_user: nova
   command: /usr/bin/nova-manage db sync
   when: nova_controller_dockerize_context is defined or
-        create_nova_db|changed
+        create_nova_db|changed or
+        modify_nova_ini|changed
   failed_when: false
 
 - name: restart nova controller if necessary

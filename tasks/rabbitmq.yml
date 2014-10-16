@@ -7,7 +7,7 @@
 - name: ensure nova rabbitmq user is present
   rabbitmq_user:
     user: nova
-    password: "{{ nova_rabbitmq_nova_password }}"
+    password: "{{ openstack_rabbitmq_nova_password }}"
     vhost: /nova
     configure_priv: .*
     read_priv: .*

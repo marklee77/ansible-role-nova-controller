@@ -9,14 +9,14 @@
 - include: install.yml
   when: not nova_controller_dockerized_deployment 
 
-- include: offline_configuration.yml
+- include: configure.yml
   when: not nova_controller_dockerized_deployment 
 
 - include: keystone.yml
 
 - name: wait until nova controller service is ready
   wait_for:
-    delay: 1
+    delay: 10
     host: "{{ nova_compute_host }}"
     port: 8774
     state: started
