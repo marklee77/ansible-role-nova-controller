@@ -19,8 +19,7 @@
   file:
     path: "{{ item }}"
     owner: nova
-    group: nova
-    mode: 0755
+    group: root
     state: directory
   with_items:
     - /var/run/nova
