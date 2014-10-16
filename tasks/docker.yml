@@ -55,6 +55,8 @@
             "{{ openstack_mysql_nova_password }}",
           "openstack_compute_endpoint_host" : 
             "{{ openstack_compute_endpoint_host }}",
+          "openstack_compute_metadata_secret" :
+            "{{ openstack_compute_metadata_secret }}",
           "openstack_identity_endpoint_host" : 
             "{{ openstack_identity_endpoint_host }}",
           "openstack_identity_internal_url" : 
