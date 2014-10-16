@@ -49,11 +49,6 @@
         value: "{{ openstack_identity_nova_password }}" }
   register: modify_nova_ini
 
-- name: ensure nova sqlite is deleted
-  file:
-    dest: /var/lib/nova/nova.sqlite
-    state: absent
-
 - name: ensure nova database has been populated with required tables
   sudo_user: nova
   command: /usr/bin/nova-manage db sync
@@ -76,3 +71,7 @@
   when: modify_nova_ini|changed and
         nova_controller_dockerize_context is not defined
 
+- name: ensure nova sqlite is deleted
+  file:
+    dest: /var/lib/nova/nova.sqlite
+    state: absent
