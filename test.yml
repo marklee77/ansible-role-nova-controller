@@ -2,7 +2,7 @@
 - hosts: all
   sudo: False
   vars:
-    identity_demo_password: password
+    openstack_identity_demo_password: password
   tasks:
 
     - name: update admin.openrc from template
@@ -13,23 +13,23 @@
 
     - name: create demo tenant
       keystone_user:
-        endpoint: "{{ nova_identity_admin_url }}"
-        token: "{{ nova_identity_admin_token }}"
+        endpoint: "{{ openstack_identity_admin_url }}"
+        token: "{{ openstack_identity_admin_token }}"
         tenant: demo
         tenant_description: "Demo Tenant"
 
     - name: create demo user
       keystone_user:
-        endpoint: "{{ nova_identity_admin_url }}"
-        token: "{{ nova_identity_admin_token }}"
+        endpoint: "{{ openstack_identity_admin_url }}"
+        token: "{{ openstack_identity_admin_token }}"
         tenant: demo
         user: demo
-        password: "{{ identity_demo_password }}"
+        password: "{{ openstack_identity_demo_password }}"
 
     - name: associate _member_ role with demo user
       keystone_user:
-        endpoint: "{{ nova_identity_admin_url }}"
-        token: "{{ nova_identity_admin_token }}"
+        endpoint: "{{ openstack_identity_admin_url }}"
+        token: "{{ openstack_identity_admin_token }}"
         tenant: demo
         user: demo
         role: _member_
@@ -51,10 +51,10 @@
 
     - name: add ssh keypair to nova
       nova_keypair:
-        auth_url: "{{ nova_identity_public_url }}"
+        auth_url: "{{ openstack_identity_public_url }}"
         login_tenant_name: demo
         login_username: demo
-        login_password: "{{ identity_demo_password }}"
+        login_password: "{{ openstack_identity_demo_password }}"
         name: default
         public_key: "{{ pubkey.stdout }}"
         state: present
