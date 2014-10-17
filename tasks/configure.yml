@@ -56,17 +56,8 @@
         modify_nova_ini|changed
   failed_when: false
 
-- name: restart nova controller if necessary
-  service:
-    name: "{{ item }}"
-    state: restarted
-  with_items:
-    - nova-api
-    - nova-cert
-    - nova-consoleauth
-    - nova-scheduler
-    - nova-conductor
-    - nova-novncproxy
+- name: restart nova services if changes are made to configuration files
+  shell: ls /etc/init/nova-* | while read initconf; do service $(basename ${initconf} .conf) restart; done
   when: modify_nova_ini|changed and
         nova_controller_dockerize_context is not defined
 
