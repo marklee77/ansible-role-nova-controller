@@ -32,6 +32,22 @@
     - { section: DEFAULT, option: neutron_metadata_proxy_shared_secret, 
         value: "{{ openstack_compute_metadata_secret }}" }
     - { section: DEFAULT, option: auth_strategy, value: keystone }
+    - { section: DEFAULT,
+        option: network_api_class, value: nova.network.neutronv2.api.API }
+    - { section: DEFAULT,
+        option: neutron_url, value: "{{ openstack_network_internal_url }}" }
+    - { section: DEFAULT, option: neutron_auth_strategy, value: keystone }
+    - { section: DEFAULT, option: neutron_admin_tenant_name, value: service }
+    - { section: DEFAULT, option: neutron_admin_username, value: neutron }
+    - { section: DEFAULT, option: neutron_admin_password,
+        value: "{{ openstack_identity_neutron_password }}" }
+    - { section: DEFAULT, option: neutron_admin_auth_url,
+        value: "{{ openstack_identity_internal_url }}" }
+    - { section: DEFAULT, option: linuxnet_interface_driver,
+        value: nova.network.linux_net.LinuxOVSInterfaceDriver }
+    - { section: DEFAULT,
+        option: firewall_driver, value: nova.virt.firewall.NoopFirewallDriver }
+    - { section: DEFAULT, option: security_group_api, value: neutron }
     - { section: database, option: connection,
         value: "mysql://nova:{{ openstack_mysql_nova_password }}@{{ 
                   openstack_mysql_host }}:{{ openstack_mysql_port }}/nova" }

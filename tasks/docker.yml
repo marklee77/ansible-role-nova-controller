@@ -57,6 +57,10 @@
             "{{ openstack_compute_endpoint_host }}",
           "openstack_compute_metadata_secret" :
             "{{ openstack_compute_metadata_secret }}",
+          "openstack_network_internal_url" :
+            "{{ openstack_network_internal_url }}",
+          "openstack_identity_neutron_password" :
+            "{{ openstack_identity_neutron_password }}",
           "openstack_identity_endpoint_host" : 
             "{{ openstack_identity_endpoint_host }}",
           "openstack_identity_internal_url" : 

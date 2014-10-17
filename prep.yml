@@ -12,6 +12,7 @@
     - marklee77.mariadb
     - marklee77.rabbitmq-server
     - marklee77.keystone
+    - marklee77.neutron-controller
 
 - hosts: all
   gather_facts: True
