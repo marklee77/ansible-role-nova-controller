@@ -25,6 +25,11 @@ openstack_identity_nova_password: >
                         '/private/credentials/keystone-nova-password 
                          length=20 
                          chars=ascii_letters,digits') }}
+openstack_identity_neutron_password: >
+  {{ lookup('password', openstack_run_dir + 
+                        '/private/credentials/keystone-neutron-password 
+                         length=20 
+                         chars=ascii_letters,digits') }}
 openstack_compute_metadata_secret: >
   {{ lookup('password', openstack_run_dir +
                         '/private/credentials/nova-metadata-secret
