@@ -95,8 +95,6 @@
     volumes_from: "{{ nova_controller_docker_containername }}_data"
     ports:
       - 6080:6080
-      - 6081:6081
-      - 6082:6082
       - 8773:8773
       - 8774:8774
       - 8775:8775
