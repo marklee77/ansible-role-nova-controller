@@ -73,17 +73,22 @@
 - name: ensure nova database has been populated with required tables
   sudo_user: nova
   command: /usr/bin/nova-manage db sync
-  when: nova_controller_dockerize_context is defined or
-        create_nova_db|changed or
+  when: create_nova_db|changed or
         modify_nova_ini|changed
   failed_when: false
 
 - name: restart nova services if changes are made to configuration files
   shell: ls /etc/init/nova-* | while read initconf; do service $(basename ${initconf} .conf) restart; done
-  when: modify_nova_ini|changed and
-        nova_controller_dockerize_context is not defined
+  when: modify_nova_ini|changed
 
 - name: ensure nova sqlite is deleted
   file:
     dest: /var/lib/nova/nova.sqlite
     state: absent
+
+- name: wait until nova controller service is ready
+    wait_for:
+      delay: 10
+      host: "{{ openstack_compute_endpoint_host }}"
+      port: 8774
+      state: started

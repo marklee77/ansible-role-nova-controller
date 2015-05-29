@@ -6,24 +6,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "ubuntu/trusty64"
 
-  config.vm.provider :virtualbox do |v|
-    v.memory = 1280
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "getreqs.yml"
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/getreqs.yml"
+    ansible.playbook = "prepare-vm.yml"
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/prep.yml"
+    ansible.playbook = "deploy.yml"
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/deploy.yml"
-  end
-
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/test.yml"
+    ansible.playbook = "test.yml"
   end
 
 end
