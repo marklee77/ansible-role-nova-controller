@@ -11,7 +11,7 @@
         dest: roles/{{ item }}
         update: yes
       with_items:
-        - mariadb
+        - mysql
         - rabbitmq-server
         - keystone
         - neutron-controller

@@ -3,7 +3,7 @@
   gather_facts: True
   sudo: True
   roles:
-    - mariadb
+    - mysql
     - rabbitmq-server
     - keystone
     - neutron-controller
