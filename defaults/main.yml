@@ -73,9 +73,3 @@ openstack_default_region: RegionOne
 openstack_network_endpoint_host: "{{ ansible_default_ipv4.address }}"
 openstack_network_internal_url: >
   http://{{ openstack_network_endpoint_host }}:9696
-
-# The variables below only apply to dockerized deployment
-nova_controller_dockerized_deployment: false
-nova_controller_docker_username: default
-nova_controller_docker_imagename: nova-controller
-nova_controller_docker_containername: nova-controller
