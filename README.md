@@ -12,6 +12,10 @@ Role Variables
 - openstack_rabbitmq_port: 5672
 - openstack_log_verbose: true
 - openstack_log_debug: false
+- openstack_compute_cpu_allocation_ratio: 16.0
+- openstack_compute_ram_allocation_ratio: 1.5
+- openstack_compute_disk_allocation_ratio: 1.0
+- openstack_default_region: RegionOne
 
 Example Playbook
 -------------------------
