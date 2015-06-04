@@ -1,11 +1,11 @@
 ---
 language: python
 python: "2.7"
-sudo: false
+sudo: required
 
 install:
 
-    - pip install ansible
+    - sudo pip install ansible
     - ansible-playbook -i inventories/local.ini getreqs.yml
     - ansible-playbook -i inventories/local.ini prepare-vm.yml
 
@@ -16,7 +16,7 @@ script:
 
     # Run the role/playbook with ansible-playbook.
     - ansible-playbook -i inventories/local.ini deploy.yml
-    - cat /var/log/nova/nova-api.log
+    - sudo cat /var/log/nova/nova-api.log
 
     - ansible-playbook -i inventories/local.ini deploy.yml
 
