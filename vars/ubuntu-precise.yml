@@ -1,4 +1,4 @@
-openstack_keystone_package_info:
+openstack_nova_controller_package_info:
   pkg_mgr: apt
   args:
     pkg: "{{ item }}"
@@ -8,11 +8,16 @@ openstack_keystone_package_info:
   pre_pkgs:
     - ubuntu-cloud-keyring
   pkgs:
-    - keystone
-    - python-keystoneclient
+    - nova-api
+    - nova-cert
+    - nova-conductor
+    - nova-consoleauth
+    - nova-novncproxy
+    - nova-scheduler
     - python-mysqldb
+    - python-novaclient
 
-openstack_keystone_repo_info:
+openstack_nova_controller_repo_info:
   pkg_repo: apt_repository
   args:
     repo: "{{ item }}"
@@ -22,5 +27,10 @@ openstack_keystone_repo_info:
     - deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/icehouse main
     - deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/icehouse main
 
-openstack_keystone_services:
-  - keystone
+openstack_nova_controller_services:
+    - nova-api
+    - nova-cert
+    - nova-consoleauth
+    - nova-scheduler
+    - nova-conductor
+    - nova-novncproxy

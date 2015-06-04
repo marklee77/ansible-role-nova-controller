@@ -81,14 +81,17 @@
   shell: ls /etc/init/nova-* | while read initconf; do service $(basename ${initconf} .conf) restart; done
   when: modify_nova_ini|changed
 
+- name: restart nova controller services if necessary
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_flattened: 
+    - openstack_nova_controller_services
+    - openstack_nova_compute_services
+  when: modify_nova_ini|changed
+
 - name: ensure nova sqlite is deleted
   file:
     dest: /var/lib/nova/nova.sqlite
     state: absent
-
-- name: wait until nova controller service is ready
-  wait_for:
-    delay: 10
-    host: "{{ openstack_compute_endpoint_host }}"
-    port: 8774
-    state: started

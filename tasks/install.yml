@@ -1,39 +1,25 @@
 ---
-- name: ensure nova controller packages and dependencies are installed
-  apt: 
-    pkg: "{{ item }}"
-    state: latest 
-    update_cache: yes 
-    cache_valid_time: 600
-  with_items:
-    - nova-api
-    - nova-cert
-    - nova-conductor
-    - nova-consoleauth
-    - nova-novncproxy
-    - nova-scheduler
-    - python-mysqldb
-    - python-novaclient
+- name: ensure openstack nova controller requirements packages are installed
+  action: "{{ openstack_nova_controller_package_info.pkg_mgr }}"
+  args: openstack_nova_controller_package_info.args
+  with_items: openstack_nova_controller_package_info.pre_pkgs
+  when: openstack_nova_controller_package_info.pre_pkgs|length > 0
 
-#- name: ensure that directories used by nova exist and have correct permissions
-#  file:
-#    path: "{{ item }}"
-#    owner: nova
-#    group: root
-#    state: directory
-#  with_items:
-#    - /var/run/nova
-#    - /var/lock/nova
+- name: ensure openstack repository is enabled
+  action: "{{ openstack_nova_controller_repo_info.pkg_repo }}"
+  args: openstack_nova_controller_repo_info.args
+  with_items: openstack_nova_controller_repo_info.repos
+  when: openstack_nova_controller_repo_info.repos|length > 0
 
-- name: ensure nova controller is started and enabled
-  service: 
+- name: ensure openstack nova controller packages are installed
+  action: "{{ openstack_nova_controller_package_info.pkg_mgr }}"
+  args: openstack_nova_controller_package_info.args
+  with_items: openstack_nova_controller_package_info.pkgs
+  when: openstack_nova_controller_package_info.pkgs|length > 0
+
+- name: ensure nova_controller services are started and enabled
+  service:
     name: "{{ item }}"
-    state: started 
+    state: started
     enabled: yes
-  with_items:
-    - nova-api
-    - nova-cert
-    - nova-consoleauth
-    - nova-scheduler
-    - nova-conductor
-    - nova-novncproxy
+  with_items: openstack_nova_controller_services
