@@ -15,15 +15,15 @@
     - python-mysqldb
     - python-novaclient
 
-- name: ensure that directories used by nova exist and have correct permissions
-  file:
-    path: "{{ item }}"
-    owner: nova
-    group: root
-    state: directory
-  with_items:
-    - /var/run/nova
-    - /var/lock/nova
+#- name: ensure that directories used by nova exist and have correct permissions
+#  file:
+#    path: "{{ item }}"
+#    owner: nova
+#    group: root
+#    state: directory
+#  with_items:
+#    - /var/run/nova
+#    - /var/lock/nova
 
 - name: ensure nova controller is started and enabled
   service: 
