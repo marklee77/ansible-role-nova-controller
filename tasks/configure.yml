@@ -82,13 +82,12 @@
   when: modify_nova_ini|changed
 
 - name: restart nova controller services if necessary
-  service:
-    name: "{{ item }}"
-    state: started
-    enabled: yes
-  with_flattened: 
-    - openstack_nova_controller_services
-    - openstack_nova_compute_services
+  shell: for config in nova-*.conf; do 
+           service $(basename $config .conf) restart; 
+         done
+  args:
+    executable: /bin/bash
+    chdir: /etc/init
   when: modify_nova_ini|changed
 
 - name: ensure nova sqlite is deleted
