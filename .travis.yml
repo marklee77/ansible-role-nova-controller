@@ -16,6 +16,8 @@ script:
     # Run the role/playbook with ansible-playbook.
     - ansible-playbook -i inventories/local.ini deploy.yml
 
+    - ansible-playbook -i inventories/local.ini deploy.yml
+
     # Idempotence Test
     - >
       ansible-playbook -i inventories/local.ini deploy.yml
