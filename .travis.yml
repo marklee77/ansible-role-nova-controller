@@ -17,6 +17,7 @@ script:
     # Run the role/playbook with ansible-playbook.
     - ansible-playbook -i inventories/local.ini deploy.yml
     - sudo cat /var/log/nova/nova-api.log
+    - sudo modprobe iptable_nat
     - sudo lsmod
     - sudo ifconfig
     - sudo iptables -L
