@@ -1,6 +1,8 @@
 nova-controller ansible role
 ============================
 
+[![Build Status](https://travis-ci.org/marklee77/ansible-role-nova-controller.svg?branch=master)](https://travis-ci.org/marklee77/ansible-role-nova-controller)
+
 The purpose of this role is to deploy nova-controller onto Ubuntu. 
 
 Role Variables
