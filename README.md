@@ -2,6 +2,7 @@ nova-controller ansible role
 ============================
 
 [![Build Status](https://travis-ci.org/marklee77/ansible-role-nova-controller.svg?branch=master)](https://travis-ci.org/marklee77/ansible-role-nova-controller)
+[![Circle CI](https://circleci.com/gh/marklee77/ansible-role-nova-keystone.svn?style=shield&circle-token=0c664f98ae3751e2c2dc6bd737f2834b03231668)](https://circleci.com/gh/marklee77/ansible-role-keystone/)
 
 The purpose of this role is to deploy nova-controller onto Ubuntu. 
 
