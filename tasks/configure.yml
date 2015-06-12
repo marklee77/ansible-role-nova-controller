@@ -71,7 +71,7 @@
         value: "{{ openstack_identity_nova_password }}" }
   register: modify_nova_ini
 
-- name: ensure nova database has been populated with required tables
+- name: ensure nova database has been synced
   sudo_user: nova
   command: /usr/bin/nova-manage db sync
   when: create_nova_db|changed or modify_nova_ini|changed
@@ -79,8 +79,8 @@
 
 - name: restart nova services if necessary
   shell: >
-    ls /etc/init/nova-* | while read conf; 
-      do service $(basename ${conf} .conf) restart;
+    ls /etc/init/nova-* | while read conf; do 
+      service $(basename ${conf} .conf) restart;
     done
   when: modify_nova_ini|changed
 
