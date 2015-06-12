@@ -68,7 +68,7 @@ openstack_compute_cpu_allocation_ratio: 16.0
 openstack_compute_ram_allocation_ratio: 1.5
 openstack_compute_disk_allocation_ratio: 1.0
 
-openstack_default_region: RegionOne
+openstack_identity_region: RegionOne
 
 openstack_network_endpoint_host: "{{ ansible_default_ipv4.address }}"
 openstack_network_internal_url: >
