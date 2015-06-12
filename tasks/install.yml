@@ -17,9 +17,10 @@
   with_items: openstack_nova_controller_package_info.pkgs
   when: openstack_nova_controller_package_info.pkgs|length > 0
 
-- name: ensure nova_controller services are started and enabled
+- name: ensure nova controller services are started and enabled
   service:
     name: "{{ item }}"
     state: started
     enabled: yes
   with_items: openstack_nova_controller_services
+  when: openstack_nova_controller_services|length > 0
