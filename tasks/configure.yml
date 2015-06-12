@@ -1,6 +1,7 @@
 ---
 # FIXME: my_ip should always be an ip address, so do lookup in case it's a
 # host...
+
 - name: ensure nova.conf is properly configured
   ini_file:
     dest: /etc/nova/nova.conf
@@ -73,22 +74,16 @@
 - name: ensure nova database has been populated with required tables
   sudo_user: nova
   command: /usr/bin/nova-manage db sync
-  when: create_nova_db|changed or
-        modify_nova_ini|changed
+  when: create_nova_db|changed or modify_nova_ini|changed
   failed_when: false
 
-- name: restart nova services if changes are made to configuration files
-  shell: ls /etc/init/nova-* | while read initconf; do service $(basename ${initconf} .conf) restart; done
+- name: restart nova services if necessary
+  shell: >
+    ls /etc/init/nova-* | while read conf; 
+      do service $(basename ${conf} .conf) restart;
+    done
   when: modify_nova_ini|changed
 
-- name: restart nova controller services if necessary
-  shell: for config in nova-*.conf; do 
-           service $(basename $config .conf) restart; 
-         done
-  args:
-    executable: /bin/bash
-    chdir: /etc/init
-  when: modify_nova_ini|changed
 
 - name: ensure nova sqlite is deleted
   file:
