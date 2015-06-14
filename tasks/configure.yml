@@ -80,11 +80,10 @@
 
 - name: restart nova services if necessary
   shell: >
-    ls /etc/init/nova-* | while read conf; do 
-      service $(basename ${conf} .conf) restart;
+    ls /etc/init*/*nova-* | while read file; do 
+      service $(basename $file .conf) restart;
     done
   when: modify_nova_ini|changed
-
 
 - name: ensure nova sqlite is deleted
   file:
