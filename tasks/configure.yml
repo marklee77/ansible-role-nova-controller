@@ -29,7 +29,7 @@
     - { section: DEFAULT, option: vncserver_listen,
         value: "{{ openstack_vncserver_bind_address }}" }
     - { section: DEFAULT, option: vncserver_proxyclient_address,
-        value: "{{ openstack_compute_endpoint_host }}" }
+        value: "{{ openstack_vncserver_bind_address }}" }
     - { section: DEFAULT, option: service_neutron_metadata_proxy, value: true }
     - { section: DEFAULT, option: neutron_metadata_proxy_shared_secret, 
         value: "{{ openstack_compute_metadata_secret }}" }
