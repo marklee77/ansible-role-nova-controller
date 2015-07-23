@@ -56,6 +56,8 @@ openstack_identity_public_url: >
 
 openstack_vncserver_bind_address: "{{ openstack_compute_endpoint_host }}"
 
+openstack_compute_node_ip: "{{ ansible_default_ipv4.address }}"
+
 openstack_compute_endpoint_host: "{{ ansible_default_ipv4.address }}"
 openstack_compute_admin_url: >
   http://{{ openstack_compute_endpoint_host }}:8774/v2/%(tenant_id)s
