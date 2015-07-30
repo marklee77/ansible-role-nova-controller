@@ -56,6 +56,18 @@
         value: "{{ openstack_compute_ram_allocation_ratio }}" }
     - { section: DEFAULT, option: disk_allocation_ratio, 
         value: "{{ openstack_compute_disk_allocation_ratio }}" }
+    - { section: DEFAULT, 
+        option: quota_cores, value: "{{ openstack_compute_quota_cores }}" }
+    - { section: DEFAULT, option: quota_fixed_ips, 
+        value: "{{ openstack_compute_quota_fixed_ips }}" }
+    - { section: DEFAULT, option: quota_floating_ips, 
+        value: "{{ openstack_compute_quota_floating_ips }}" }
+    - { section: DEFAULT, option: quota_instances, 
+        value: "{{ openstack_compute_quota_instances }}" }
+    - { section: DEFAULT, option: quota_key_pairs, 
+        value: "{{ openstack_compute_quota_key_pairs }}" }
+    - { section: DEFAULT, 
+        option: quota_ram, value: "{{ openstack_compute_quota_ram }}" }
     - { section: database, option: connection,
         value: "mysql://nova:{{ openstack_mysql_nova_password }}@{{
                   openstack_mysql_host }}:{{ openstack_mysql_port }}/nova" }
